@@ -24,7 +24,7 @@ In this analysis, I:
 ## Key Findings
 
 - Higher 3-point attempt rate (3PAr) predicts higher shooting efficiency (eFG%), controlling for usage, minutes, and position.
-- Evidence of a **U-shaped relationship**: both low- and high-volume 3-point shooters are more efficient than mid-range-heavy players.
+- Evidence of a **U-shaped relationship**: both low- and high-volume 3-point shooters are more efficient compared to those with more balanced shot profiles.
 - Guards and forwards show lower eFG% relative to centers, reflecting shot location and role differences.
 - Model explains ~19% of variation in player field goal efficiency (Adj. R² = 0.19, p < 0.01).
 
