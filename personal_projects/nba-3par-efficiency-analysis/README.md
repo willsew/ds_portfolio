@@ -28,7 +28,7 @@ In this analysis, I:
 - Guards and forwards show lower eFG% relative to centers, reflecting shot location and role differences.
 - Model explains ~19% of variation in player field goal efficiency (Adj. R² = 0.19, p < 0.01).
 
-> **Interpretation:** Efficiency peaks when players specialize — either as interior finishers or as volume 3-point shooters.
+> **Interpretation:** Efficiency peaks when players specialize, either as interior finishers or as volume 3-point shooters.
 
 ---
 
