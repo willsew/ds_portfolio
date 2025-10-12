@@ -1,0 +1,300 @@
+---
+title: "Popularity Decoded: Unpacking the Association Between Track Audio Features and Popularity"
+subtitle: University of California, Berkeley
+format: pdf
+author: "Ryan Farhat-Sabet, Maia Kennedy, William Seward"
+fontsize: 10pt
+editor: visual
+geometry: margin=0.8in
+---
+
+```{r echo = FALSE, message = FALSE, warning = FALSE}
+
+install.packages("moments")
+install.packages("stargazer")
+install.packages("kableExtra")
+install.packages("dplyr")
+install.packages("stargazer")
+library(ggplot2)
+library(dplyr)
+library(tidyverse)
+library(sandwich)
+library(stargazer)
+library(lmtest)
+library(car)
+library(moments)
+library(stargazer)
+library(kableExtra)
+library(knitr)
+```
+
+\newpage
+
+## Abstract
+
+This study investigates the relationship between Spotify's "danceability" metric and track popularity using a dataset of over 30,000 songs. Leveraging proprietary Spotify audio features such as energy and instrumentalness, the analysis employs a baseline regression model to evaluate how danceability associates with popularity, complemented by multivariate models for additional insights. Initial findings suggest a statistically significant, though modest, relationship, with danceability explaining only a small fraction of the variance in track popularity. Challenges include data preparation, such as handling duplicates and addressing songs with zero popularity, as well as ensuring robust model assumptions. Despite limitations, the results highlight the complexity of musical popularity and the value of focusing on specific features like danceability for understanding listener engagement. This research offers implications for artists, record labels, and marketers seeking to optimize music for broader appeal.
+
+\newpage
+
+## Introduction
+
+Spotify, a global leader in music streaming, has developed proprietary metrics such as danceability, instrumentalness, and energy to quantify and describe the features of songs. These sophisticated measures offer valuable insights into musical characteristics that influence listener engagement and preferences. By leveraging these tools, this study aims to address the question:
+
+**What is the association between danceability and track popularity?**
+
+This question may be compelling to a range of audiences, including artists looking to optimize their music for listener engagement, record labels seeking features that maximize success, or marketing professionals selecting music for campaigns. While [many individuals](https://towardsdatascience.com/is-my-spotify-music-boring-an-analysis-involving-music-data-and-machine-learning-47550ae931de) have analyzed Spotify’s audio features in the context of personal playlists or genre trends, scholarly research often focuses on [broader models predicting music success](https://essay.utwente.nl/75422/1/NIJKAMP_BA_IBA.pdf) using an array of audio features across genres. For example, prior studies have used machine learning to predict song popularity, often considering many features simultaneously. Our study narrows the scope by focusing on the association of a specific feature – danceability – with track popularity. By highlighting danceability, we aim to uncover patterns that connect musical features to commercial performance.
+
+## Description of the Data Source
+
+The dataset, "[30000 Spotify Songs](https://www.kaggle.com/datasets/joebeachcapital/30000-spotify-songs/data)," sourced from Kaggle and extracted via [Spotify’s API](https://developer.spotify.com/documentation/web-api), contains information on over 30,000 tracks spanning various genres and release dates. This dataset was last updated on November 11th, 2023 and includes a comprehensive set of audio features, track identifiers, and song popularity with point-in-time values. Our dependent variable, **track_popularity**, is a proprietary Spotify-assigned score ranging from 0 to 100, reflecting [listener engagement metrics](https://www.artist.tools/features/spotify-popularity-index) such as recent play counts, listener engagement activity, current popularity (rather than historical success), and global versus local popularity. The primary independent variable in our baseline model is **danceability**, a measure from 0.0 to 1.0 of [how suitable a track is for dancing](https://developer.spotify.com/documentation/web-api/reference/get-audio-features) based on tempo, rhythm, beat strength and overall regularity. Other features we consider include instrumentalness, which attempts to identify whether a song contains vocals, and energy, which measures how fast, loud, and noisy a particular song is based on perceived loudness, timbre, onset rate, and general entropy.
+
+## Data Wrangling
+
+**Scope the data:** We ensured the dataset included only tracks with complete values for all relevant features. This dataset was very comprehensive and did not include any nulls or missing values for the variables of interest.
+
+**Handle duplicates:** To prevent overcounting, we reviewed duplicate songs, defined as those with the same title and artist, regardless of release format (e.g., album or standalone track). Since our analysis focuses on audio features and popularity rather than publishing mode, we chose to address duplicates systematically. Interestingly, we discovered cases where duplicate songs had varying audio features and popularity metrics. To maintain consistency, we retained only the version with the highest popularity score, as we believe it best represents listener engagement and does not dilute the true popularity.
+
+```{r echo = FALSE, show_col_types = FALSE}
+spotify_songs <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-01-21/spotify_songs.csv', show_col_types = FALSE)
+```
+
+```{r echo = FALSE, message = FALSE, show_col_types = FALSE, warning = FALSE}
+# Handle duplicates
+library(dplyr)
+songs_deduped <- spotify_songs %>%
+  group_by(track_name, track_artist) %>%
+  slice(which.max(track_popularity)) %>%
+  ungroup()
+```
+
+**Consider zero popularity songs:** After removing duplicated versions, we explored the remaining tracks that had a 0.0 popularity score. We examined several possibilities for this occurrence, including whether these songs truly had no listener engagement, if there was a reporting error with Spotify’s API, or if Spotify’s recommendation algorithm simply overlooked certain songs. We concluded that Spotify erroneously reporting 0.0 popularity would result in significant concern among artists, which justified retaining these songs with 0.0 popularity for further analysis. Ultimately, no additional data cleansing was required for this step.
+
+**Split the dataset:** We split 30% of the data into an exploration set and the remaining 70% into a confirmation set at random.
+
+```{r echo = FALSE}
+set.seed(42)
+filtered_spotify_data <- songs_deduped %>% mutate(set = sample(c("exploration", "confirmation"), n(), replace = TRUE, prob = c(0.3, 0.7)))
+exploration_data <- filtered_spotify_data %>% filter(set == "exploration")
+confirmation_data <- filtered_spotify_data %>% filter(set == "confirmation")
+```
+
+## Operationalization
+
+```{r echo = FALSE}
+library(dplyr)
+library(kableExtra)
+variables <- data.frame(
+  Variable = c("Dependent Variable(Y)", "Independent Variable(X)", "Additional X Variable", "Additional X Variable"), 
+  Feature = c("Track Popularity", "Danceability", "Instrumentalness", "Energy"), 
+  Definition = c("A Spotify-assigned continuous metric based on listener engagement", "A measure of how suitable a track is for dancing", "A score predicting the likelihood of a track being instrumental. Values greater than 0.5 are intended to represent instrumental tracks", "A perceptual measure of intensity and activity"), 
+  Scale = c("0-100 (not popular → popular)", "0.0-1.0 (not danceable → danceable)", "0.0-1.0 (vocals → no vocals)", "0.0-1.0 (low energy → high energy)"))
+
+# Use kable() to create the table
+variables %>%
+  kable(caption = "Variable Definitions") %>%
+  kable_styling(latex_options = "striped") %>%
+  kable_styling(font_size = 8) %>%
+  column_spec(1, width = "2cm") %>%
+  column_spec(2, width = "3cm") %>%
+  column_spec(3, width = "6cm") %>%
+  column_spec(4, width = "3cm")
+```
+
+Danceability was chosen as the primary independent variable due to its perceived association with audience engagement and track popularity. The dataset initially contained 32,833 songs, which was reduced to 26,230 after removing duplicates.
+
+## Visualization
+
+For track popularity, we observe a relatively normal distribution, with many outliers of 0.0 popularity as previously mentioned. For danceability, we observe a left skewed distribution. For the joint distribution of danceability vs track popularity, we see a blob-like cloud; notice the 0.0 popularity songs hugging the X-axis.
+
+```{r echo = FALSE, fig.width=6, fig.height=2}
+library(ggplot2)
+ggplot(songs_deduped, aes(x=danceability,y=track_popularity)) + 
+  geom_point(color='black', fill='grey', shape=21) + 
+  geom_smooth(method="lm",color='#1ED760') + 
+  labs(title="30,000 Spotify Songs",x="Danceability",y="Track Popularity") + 
+  theme(
+    plot.title = element_text(size = 10),
+    axis.title.x = element_text(size = 8),  # Change x-axis title size
+    axis.title.y = element_text(size = 8)
+  )
+```
+
+```{r echo = FALSE, fig.width=6, fig.height=3}
+par(mfrow = c(1, 2))
+
+hist(songs_deduped$track_popularity, main = "Histogram of Track Popularity", xlab = "Track Popularity", ylab = "Frequency", col = "#1ED760",
+     cex.main = .7,           
+     cex.lab = .5,
+     cex.axis = .5,)
+hist(songs_deduped$danceability, main = "Histogram of Danceability", xlab = "Danceability", ylab = "Frequency", col = "#1ED760",
+     cex.main = .7,                         
+     cex.lab = .5,
+     cex.axis = .5,)
+
+```
+
+## Model Specification
+
+Our study included a baseline and further comparison models to explore the associations between audio qualities and track popularity.
+
+**Baseline Model:** lm(track_popularity\~danceability)
+
+```{r echo = FALSE}
+model1 <- lm(track_popularity~danceability, data = confirmation_data)
+```
+
+We use an Ordinary Least Squares (OLS) regression model to estimate the relationship between danceability and track popularity. OLS regression is well-suited for this analysis due to its interpretability.
+
+**Comparison Model:** lm(track_popularity\~danceability+instrumentalness+energy)
+
+```{r echo = FALSE}
+model10 <- lm(track_popularity~danceability+instrumentalness+energy, data = confirmation_data)
+```
+
+We created multiple multivariate OLS regression models to explore additional audio features that may explain the variance of track popularity, including instrumentalness and energy, as well as other features from the Spotify API such as liveness, valence, key, and mode. We selected these variables to strengthen the robustness of the model and identify potential nonlinear relationships.
+
+## Model Assumptions
+
+We investigated the two large model assumptions (IID and a unique BLP exists) to ensure our conclusions will be valid.
+
+For IID, potential sources of dependence include scenarios where a hit song by an artist boosts the popularity of their other tracks. Additionally, unknown Spotify incentives should be considered, as the platform holds significant influence over music recommendations in ways that may not be fully transparent, potentially introducing biases that favor certain songs.
+
+Potential non-identical distributions are also evident in our variables, as recent songs are more likely to be more popular than older tracks, and danceability systematically varies between genres (e.g., EDM vs. classical music). One way to possibly mitigate this is by stratifying the exploration and confirmation datasets. See appendix for more details.
+
+To determine if a unique BLP exists, we start by checking whether a BLP exists at all. This involves examining the covariances between variables (e.g., Xi, Xj, ​and Xi​, Y) to ensure there are no extreme values ("heavy tails"). Since all our variables are on a bounded scale, this condition is satisfied.
+
+Next, we assess the uniqueness of the BLP by checking if any of the predictor variables (X) can be expressed as a linear combination of others. Our analysis confirms that there is no perfect or near-perfect collinearity, ensuring the BLP is unique.
+
+## Model Results and Interpretation
+
+```{r echo = FALSE}
+library(stargazer)
+library(sandwich)
+cov1 <- vcovHC(model1, type = "HC1")
+robust_se1 <- sqrt(diag(cov1))
+
+cov10 <- vcovHC(model10, type = "HC1")
+robust_se10 <- sqrt(diag(cov10))
+stargazer(model1, model10, type = "text",
+          se = list(robust_se1, robust_se10),
+          title="Regression Results",
+          dep.var.labels = "Track Popularity w/ robust std errors")
+
+```
+
+**Baseline Model**
+
+The OLS baseline model looks at track popularity as a function of danceability. When doing a simple linear regression, we can see that there is a statistically significant relationship between danceability and track popularity: for a 0.1 increase of danceability, there is a .7639 increase in track popularity.
+
+However, our adjusted R\^2 value is incredibly low; 0.2% of the variation in track popularity is explained by danceability in our model. This has nothing to do with the relationship we see between our variables, it just means that the amount of variation explained by our model is pretty low. This is exemplified by the large standard error among our residuals. This makes sense because track popularity is incredibly complex, and our model is a huge simplification. We are not accounting for so many other factors that influence popularity, so having a low R\^2 here is to be expected. 
+
+**Comparison Model**
+
+The comparison model looks at track popularity as a function of danceability, instrumentalness, and energy. We made sure to check for multicollinearity between all the variables, and there was very low correlation between all three of them. When regressing these variables against track popularity, we can see that there is a statistically significant relationship between track popularity and all three variables. For a 0.1 increase of danceability, there is a .6536 increase in track popularity. For a 0.1 increase of instrumentalness, there is a 1.3611 decrease in track popularity. For a 0.1 increase of energy, there is a 1.231 decrease in track popularity. Interestingly, as we have just highlighted, there is an inverse relationship between track popularity and instrumentalness.
+
+Looking at our adjusted R\^2 value, we see that 3.2% of the variation in track popularity is explained by our model. While this is over ten times better than our base model, it is still quite low, and we really see just how complex it is to model how popular a song is. Once again, our residuals have large standard errors, and we can see just how much data our model misses in the fitted values plot. When comparing against our base model, the plots look slightly less skewed because it is actually fitting better to the data ever so slightly. But we can still see how much variation exists here that can’t be simplified and fitted by our model. The variables do explain a relationship with popularity here, but there is still so much that we are unable to capture with our data.\
+
+## Opportunities for Future Research
+
+If we pursued similar research in the future, we would be interested in further analyzing how the audio features themselves are associated with other audio features. We would also like to continue exploring how popularity of tracks changes over time. Lastly, we are interested in testing whether transforming continuous measures, such as danceability, into binary variables (danceable vs. not danceable with a 0.5 cutoff) could enhance the performance of our models.\
+
+\newpage
+
+## Appendix
+
+-   **Data Source:** <https://www.kaggle.com/datasets/joebeachcapital/30000-spotify-songs/data>
+
+-   **Additional Models Explored:**
+
+    -   Regressing mode on danceability does not meaningly improve R\^2
+
+    -   Regressing duration on danceability actually reduces R\^2 and is not very interpretable despite being statistically significant
+
+    -   Regressing tempo on danceability does not meaningly improve R\^2
+
+    -   Regressing valence on danceability shows that valence is not a statistically significant variable
+
+    -   Regressing loudness on danceability does not meaningly improve R\^2
+
+```{r echo = FALSE, warning = FALSE, output = FALSE}
+model1 <- lm(track_popularity~danceability, data = confirmation_data)
+model3 <- lm(track_popularity~danceability+mode, data = exploration_data)
+model5 <- lm(track_popularity~danceability+duration_ms, data = exploration_data)
+model6 <- lm(track_popularity~danceability+tempo, data = exploration_data)
+model7 <- lm(track_popularity~danceability+valence, data = exploration_data)
+model10 <- lm(track_popularity~danceability+instrumentalness+energy, data = confirmation_data)
+model12 <- lm(track_popularity~danceability+loudness, data = exploration_data)
+
+# get robust standard errors
+cov1 <- vcovHC(model1, type = "HC1")
+robust_se1 <- sqrt(diag(cov1))
+cov3 <- vcovHC(model3, type = "HC1")
+robust_se3 <- sqrt(diag(cov3))
+cov5 <- vcovHC(model5, type = "HC1")
+robust_se5 <- sqrt(diag(cov5))
+cov6 <- vcovHC(model6, type = "HC1")
+robust_se6 <- sqrt(diag(cov6))
+cov7 <- vcovHC(model7, type = "HC1")
+robust_se7 <- sqrt(diag(cov7))
+cov10 <- vcovHC(model10, type = "HC1")
+robust_se10 <- sqrt(diag(cov10))
+cov12 <- vcovHC(model12, type = "HC1")
+robust_se12 <- sqrt(diag(cov12))
+stargazer <- stargazer(model1, model3, model5, model6, model7, model12, model10, type = "text",
+          se = list(robust_se1, robust_se3, robust_se5, robust_se6, robust_se7, robust_se12, robust_se10),
+          title="Regression Results",
+          dep.var.labels = "Track Popularity w/ robust std errors",
+          style = "aer", 
+          font.size = "tiny",
+          column.sep.width = "0pt")
+```
+
+![](Stargazer.pdf)
+
+-   **Additional features of the dataset:** There are 12 audio features for each track, including confidence measures like acousticness, liveness, speechiness and instrumentalness, perceptual measures like energy, loudness, danceability and valence (positiveness), and descriptors like duration, tempo, key, and mode (<https://www.kaylinpavlik.com/classifying-songs-genres/>)
+
+-   **Residuals vs. Fitted**
+
+    ```{r echo = FALSE}
+
+    plot(model1, which=1, main = "Baseline Model")  # Main title of the plot
+
+    plot(model10, which=1, main = "Comparison Model")
+    ```
+
+-   **Exploration vs. Confirmation Sampling Breakdown**
+
+    ```{r echo = FALSE, message = FALSE, fig.width=6, fig.height=3}
+    library(gridExtra)
+    # Count genres in exploration data
+    exploration_counts <- exploration_data %>%
+      group_by(playlist_genre) %>%
+      summarise(Count = n())
+
+    # Count genres in confirmation data
+    confirmation_counts <- confirmation_data %>%
+      group_by(playlist_genre) %>%
+      summarise(Count = n())
+
+    # Plot Exploration Songs by Genre
+    exploration_plot <- ggplot(exploration_counts, aes(x = playlist_genre, y = Count)) +
+      geom_bar(stat = "identity", fill = "#1ED760") +
+      geom_text(aes(label = Count), vjust = -0.2) + 
+      labs(title = "Exploration Songs by Genre", y = "Count", x = "") +
+      theme_minimal()
+
+    # Plot Confirmation Songs by Genre
+    confirmation_plot <- ggplot(confirmation_counts, aes(x = playlist_genre, y = Count)) +
+      geom_bar(stat = "identity", fill = "gray") +
+      geom_text(aes(label = Count), vjust = -0.2) + 
+      labs(title = "Confirmation Songs by Genre", y = "Count", x = "") +
+      theme_minimal()
+
+    # Print the plots side by side
+    grid.arrange(exploration_plot, confirmation_plot, ncol = 2,
+                 top = "Exploration vs Confirmation Sampling Breakdown")
+    ```
+
+\
+\
+\
