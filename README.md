@@ -1,6 +1,6 @@
 # Data Science Portfolio for William Seward
 
-Hi! This repo contains a mix of personal and MIDS projects involving stats, ML, and DE.
+Hi! This repo contains personal projects as well as coursework from UC Berkeley's Master's in Information and Data Science (MIDS) revolving around stats, ML, and DE.
 
 ---
 
