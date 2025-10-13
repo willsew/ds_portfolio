@@ -25,9 +25,9 @@ Understanding this relationship helps quantify whether the modern 3-point revolu
 
 ## Key Findings
 
-- U-Shaped Relationship: Efficiency (eFG%) is highest for players at the extremes of 3-point reliance (very low or very high 3PAr).
+- U-Shaped Relationship: Efficiency (eFG%) is highest for players at the extremes of 3-point reliance (very low or very high 3PAr). Efficiency is lowest for players with moderate 3PAr (those taking inside and outside shots without strong specialization).
 - Statistical Significance: The quadratic term for 3PAr is positive and significant (p < 0.01) across model specifications.
-- Positional Patterns: Guards and forwards show lower average eFG% than centers, consistent with shot location and role differences.
+- Positional Patterns: Guards and forwards show lower average eFG% than centers, even after controlling for usage and minutes per game, consistent with shot location and role differences.
 - Model Fit: Best model explains ~33% of variance in efficiency (Adj. R² = 0.326).
 - Interpretation: Role specialization (either 3-point specialist or big man) is linked to higher efficiency.
 
