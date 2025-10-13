@@ -1,4 +1,5 @@
 #install.packages("stargazer")
+#install.packages("car")
 
 library(janitor)
 library(dplyr)
@@ -9,6 +10,7 @@ library(lmtest)
 library(ggplot2)
 library(rvest)
 library(stargazer)
+library(car)
 
 url <- "https://www.basketball-reference.com/leagues/NBA_2024_per_game.html"
 tables <- url %>%
@@ -46,9 +48,6 @@ nba <- nba %>%
 #Filter out players who have less than 12 MPG, less than 25 games played, and at least 1 3PA
 nba <- nba %>%
   filter(G >= 25, MPG >= 12, `3PA` >= 1)
-
-# 8 players that have zero 3-point attempts, still include in dataset
-nba[nba$`3PAr` == 0,]
 
 summary(nba)
 
@@ -115,17 +114,19 @@ nba %>%
     sd_3PAr = sd(`3PAr`, na.rm = TRUE)
   )
 
-#acknowledging collinearity when introducing squared term, keeps intercept/coeffs interpretable
-nba <- nba %>% mutate(ThreePAr_c = `3PAr` - mean(`3PAr`, na.rm = TRUE))
-
-# quadratic model
-model_quad <- lm(`eFG%` ~ `3PAr` + I(`3PAr`^2) + `USG%` + MPG + Pos, data = nba)
-summary(model_quad)
-
+#check quadratic shape
 ggplot(nba, aes(x = `3PAr`, y = `eFG%`)) +
   geom_point(alpha = 0.6) +
   stat_smooth(method = "lm", formula = y ~ poly(x, 2), color = "red") +
   labs(title = "U-Shaped Relationship Between 3PAr and eFG%")
+
+#acknowledging collinearity when introducing squared term 
+#mean-centering keeps intercept/coeffs interpretable
+nba <- nba %>% mutate(`3PAr` = `3PAr` - mean(`3PAr`, na.rm = TRUE))
+
+# quadratic model
+model_quad <- lm(`eFG%` ~ `3PAr` + I(`3PAr`^2) + `USG%` + MPG + Pos, data = nba)
+summary(model_quad)
 
 
 ################
@@ -157,3 +158,5 @@ stargazer(model1, model2, model3, model4, type = "text",
           title="Regression Results",
           covariate.labels = c("3P Attempt Rate", "3P Attempt Rate Squared", "Usage Rate", "Minutes per Game", "Power Forward", "Point Guard", "Small Forward", "Shooting Guard", "Constant"),
           dep.var.labels = "eFG% w/ robust std errors")
+
+car::vif(model3)
