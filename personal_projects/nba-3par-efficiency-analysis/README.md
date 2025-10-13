@@ -53,13 +53,14 @@ Understanding this relationship helps quantify whether the modern 3-point revolu
 ___
 
 ## Discussion
-The quadratic models suggest diminishing returns around midrange 3-point attempt rates — efficiency dips when players blend inside and perimeter shots, possibly reflecting role ambiguity or less shot selectivity.
+The quadratic models suggest diminishing returns around midrange 3-point attempt rates --> efficiency dips when players blend inside and perimeter shots, possibly reflecting role ambiguity or less shot selectivity.
 Players who either:
 - Limit 3s (interior scorers, lob threats), or
 - Maximize 3s (floor-spacers, specialists),
+
 tend to optimize their shooting efficiency within modern offensive systems.
 
 ___
 
 ## Notes
-This is an observational, cross-sectional analysis of player-season averages. Results reflect association, not causation (e.g., efficient shooters may be allowed to take more 3s).
+This is an observational, cross-sectional analysis of player-season averages. Results reflect association, not causation (e.g., endogeneity/reverse causality where efficient shooters may be allowed to take more 3s).
