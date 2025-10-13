@@ -19,7 +19,7 @@ Over the past decade, the NBA has shifted toward perimeter-oriented play, emphas
 This analysis addresses the question:
 > How does a player’s shot selection, as measured by 3-point attempt rate (3PAr), relate to their scoring efficiency (eFG%)?
 
-Understanding this relationship helps quantify whether the modern 3-point revolution truly maximizes player-level efficiency, or whether specialization remains superior to balance.
+Understanding this relationship helps quantify whether the modern 3-point revolution truly maximizes player-level efficiency, or whether specialization remains superior to versatility.
 
 ---
 
