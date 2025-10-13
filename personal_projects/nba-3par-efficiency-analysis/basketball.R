@@ -132,14 +132,17 @@ ggplot(nba, aes(x = `3PAr`, y = `eFG%`)) +
 #Baseline
 model1 <- lm(`eFG%` ~ `3PAr`, data = nba)
 
+#Quadratic
+model2 <- lm(`eFG%` ~ I(`3PAr`^3), data = nba)
+
 #Comparison
-model2 <- lm(`eFG%` ~ `3PAr` + `USG%` + MPG, data = nba)
+model3 <- lm(`eFG%` ~ `3PAr` + `USG%` + MPG, data = nba)
 
 #Further Comparison
-model3 <- lm(`eFG%` ~ `3PAr` + `USG%` + MPG + Pos, data = nba)
+model4 <- lm(`eFG%` ~ `3PAr` + `USG%` + MPG + Pos, data = nba)
 
 #Further Comparison
-model4 <- lm(`eFG%` ~ `3PAr` + Pos, data = nba)
+model5 <- lm(`eFG%` ~ `3PAr` + Pos, data = nba)
 
 cov1 <- vcovHC(model1, type = "HC1")
 robust_se1 <- sqrt(diag(cov1))
@@ -149,8 +152,10 @@ cov3 <- vcovHC(model3, type = "HC1")
 robust_se3 <- sqrt(diag(cov3))
 cov4 <- vcovHC(model4, type = "HC1")
 robust_se4 <- sqrt(diag(cov4))
-stargazer(model1, model2, model3, model4, type = "text",
-          se = list(robust_se1, robust_se2, robust_se3, robust_se4),
+cov5 <- vcovHC(model5, type = "HC1")
+robust_se5 <- sqrt(diag(cov5))
+stargazer(model1, model2, model3, model4, model5, type = "text",
+          se = list(robust_se1, robust_se2, robust_se3, robust_se4, robust_se5),
           title="Regression Results",
-          covariate.labels = c("3P Attempt Rate", "Usage Rate", "Minutes per Game", "Power Forward", "Point Guard", "Small Forward", "Shooting Guard", "Constant"),
+          covariate.labels = c("3P Attempt Rate", "3P Attempt Rate Squared", "Usage Rate", "Minutes per Game", "Power Forward", "Point Guard", "Small Forward", "Shooting Guard", "Constant"),
           dep.var.labels = "eFG% w/ robust std errors")
