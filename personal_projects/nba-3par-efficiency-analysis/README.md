@@ -56,7 +56,7 @@ ___
 
 ## Discussion
 The quadratic models suggest diminishing returns around average 3-point attempt rates (~25-65% 3PAr). Efficiency seems to dip when players mix inside and perimeter shots, possibly reflecting role ambiguity.
-Players who either limit 3s or maximize 3s tend to optimize their shooting efficiency within today's offensive approach.
+Players who either limit 3s or maximize 3s tend to optimize their shooting efficiency within today's offensive landscape.
 
 ___
 
