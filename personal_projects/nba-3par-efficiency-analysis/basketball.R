@@ -115,6 +115,9 @@ nba %>%
     sd_3PAr = sd(`3PAr`, na.rm = TRUE)
   )
 
+#acknowledging collinearity when introducing squared term, keeps intercept/coeffs interpretable
+nba <- nba %>% mutate(ThreePAr_c = `3PAr` - mean(`3PAr`, na.rm = TRUE))
+
 # quadratic model
 model_quad <- lm(`eFG%` ~ `3PAr` + I(`3PAr`^2) + `USG%` + MPG + Pos, data = nba)
 summary(model_quad)
