@@ -1,36 +1,33 @@
 # NBA 3-Point Attempt Rate and Shooting Efficiency Analysis
 ### Exploring the U-Shaped Relationship Between 3PAr and eFG%
+**Author**: William Seward
+**Language**: R
+**Data Source:** [Basketball Reference (2023–24 season)](https://www.basketball-reference.com)
 
-This project investigates how NBA players’ **three-point attempt rate (3PAr)** relates to their **shooting efficiency (effective field goal percentage, eFG%)**. Using 2023–24 season data from [Basketball Reference](https://www.basketball-reference.com), the analysis finds evidence of a **U-shaped relationship** --> both low and high 3-point reliance are associated with higher efficiency, controlling for usage, minutes, and position.
+## Summary
+This project examines how NBA players’ three-point attempt rate (3PAr) relates to their shooting efficiency (effective field goal percentage, eFG%) using 2023–24 season data.
+Findings indicate a clear U-shaped relationship: both low and high 3-point reliance are associated with higher efficiency, while players with more balanced shot profiles tend to be less efficient.
+> Key Insight: Players perform most efficiently when they specialize either as high-volume perimeter shooters or as interior finishers.
 
 ---
 
 ## Research Question and Motivation
 
-Over the past decade, the NBA has undergone a noticeable transformation toward perimeter-oriented play. In lieu of this, my project seeks to address the question:
+Over the past decade, the NBA has shifted toward perimeter-oriented play, emphasizing spacing, threes, and versatility.
+This analysis addresses the question:
+> How does a player’s shot selection, as measured by 3-point attempt rate (3PAr), relate to their scoring efficiency (eFG%)?
 
-***What is the association between shot selection (three-point attempt rate) and player scoring efficiency?***
-
-In this analysis, I:
-- Scrape per-game and advanced player stats from Basketball Reference
-- Clean and merge the two datasets
-- Filter out players with < 25 games, < 12 minutes per game, and < 1 three-point attempt per game
-- Explore descriptive patterns by position
-- Visualize key relationships
-- Test hypotheses using linear and quadratic regression models with robust standard errors
-
-*This is an observational, cross-sectional analysis of player-season averages. Results reflect association, not causation (e.g., efficient shooters may be granted more freedom to take 3s).*
+Understanding this relationship helps quantify whether the modern 3-point revolution truly maximizes player-level efficiency — or whether specialization remains superior to balance.
 
 ---
 
 ## Key Findings
 
-- Higher 3-point attempt rate (3PAr) predicts higher shooting efficiency (eFG%), controlling for usage, minutes, and position.
-- Evidence of a **U-shaped relationship**: both low- and high-volume 3-point shooters are more efficient compared to those with more balanced shot profiles.
-- Guards and forwards show lower eFG% relative to centers, reflecting shot location and role differences.
-- Model explains ~23% of variation in player field goal efficiency (Adj. R² = 0.228, p < 0.01).
-
-> **Interpretation:** Efficiency peaks when players specialize, either as interior finishers or as volume 3-point shooters.
+- U-Shaped Relationship: Efficiency (eFG%) is highest for players at the extremes of 3-point reliance (very low or very high 3PAr).
+- Statistical Significance: The quadratic term for 3PAr is positive and significant (p < 0.01) across model specifications.
+- Positional Patterns: Guards and forwards show lower average eFG% than centers, consistent with shot location and role differences.
+- Model Fit: Best model explains ~23% of variance in efficiency (Adj. R² = 0.228).
+- Interpretation: Role specialization (either 3-point specialist or big man) is linked to higher efficiency.
 
 ---
 
@@ -48,16 +45,21 @@ In this analysis, I:
 | Step | Description |
 |------|--------------|
 | **1. Web Scraping** | Used `rvest` to import per-game and advanced stats tables from Basketball Reference |
-| **2. Data Cleaning** | Removed duplicates and aggregated players with multi-team seasons (TOT row) |
+| **2. Data Cleaning** | Removed duplicates and handled players with multi-team seasons (TOT row) |
 | **3. Feature Selection** | Focused on variables relevant to shooting efficiency (`eFG%`, `3PAr`, `USG%`, `MPG`, `Pos`) |
-| **4. Visualization** | Built exploratory plots using `ggplot2` |
+| **4. Visualization** | Used `ggplot2` for histograms, scatterplots, and regression diagnostics |
 | **5. Regression Modeling** | Used `lm()` with robust SEs (`sandwich` + `lmtest`), formatted output with `stargazer` |
 
----
+___
 
-## Tech Stack
+## Discussion
+The quadratic models suggest diminishing returns around midrange 3-point attempt rates — efficiency dips when players blend inside and perimeter shots, possibly reflecting role ambiguity or less shot selectivity.
+Players who either:
+- Limit 3s (interior scorers, lob threats), or
+- Maximize 3s (floor-spacers, specialists),
+tend to optimize their shooting efficiency within modern offensive systems.
 
-- **Language:** R  
-- **Libraries:** `tidyverse`, `rvest`, `dplyr`, `ggplot2`, `stargazer`, `sandwich`, `lmtest`, `janitor`  
-- **Data Source:** [Basketball Reference (2023–24 season)](https://www.basketball-reference.com)
+___
 
+## Notes
+This is an observational, cross-sectional analysis of player-season averages. Results reflect association, not causation (e.g., efficient shooters may be allowed to take more 3s).
