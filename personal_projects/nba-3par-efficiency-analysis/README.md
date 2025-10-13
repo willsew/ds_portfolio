@@ -50,7 +50,7 @@ Understanding this relationship helps quantify whether the modern 3-point revolu
 | Step | Description |
 |------|--------------|
 | **1. Web Scraping** | Used `rvest` to import per-game and advanced stats tables from Basketball Reference |
-| **2. Data Cleaning** | Removed duplicates and handled players with multi-team seasons (TOT row), sample includes all players with ≥ 25 games and ≥ 12 minutes per game regardless of 3-point volume. |
+| **2. Data Cleaning** | Removed duplicates and handled players with multi-team seasons (TOT row), sample includes all players with ≥25 games and ≥12 minutes per game regardless of 3-point volume. |
 | **3. Feature Selection** | Focused on variables relevant to shooting efficiency (`eFG%`, `3PAr`, `USG%`, `MPG`, `Pos`) |
 | **4. Visualization** | Used `ggplot2` for histograms, scatterplots, and regression diagnostics |
 | **5. Regression Modeling** | Used `lm()` with robust SEs (`sandwich` + `lmtest`), formatted output with `stargazer` |
