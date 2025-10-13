@@ -7,7 +7,7 @@ Hi! This repo contains personal projects as well as coursework from UC Berkeley'
 ### Personal Projects
 
 **[NBA 3-Point Attempt Rate and Shooting Efficiency Analysis](https://github.com/willsew/ds_portfolio/tree/main/personal_projects/nba-3par-efficiency-analysis)**  
-  Statistical analysis of how NBA players’ 3-point attempt rate (3PAr) relates to shooting efficiency (eFG%), revealing a U-shaped relationship when controlling for usage, minutes, and position.
+Analyzes 2023–24 NBA player data to reveal a U-shaped relationship between three-point attempt rate (3PAr) and shooting efficiency (eFG%), showing that players are most efficient when they specialize as interior finishers or high-volume three-point shooters.
 
 ### MIDS coursework so far
 
