@@ -1,7 +1,9 @@
 # NBA 3-Point Attempt Rate and Shooting Efficiency Analysis
 ### Exploring the U-Shaped Relationship Between 3PAr and eFG%
 **Author**: William Seward
+
 **Language**: R
+
 **Data Source:** [Basketball Reference (2023–24 season)](https://www.basketball-reference.com)
 
 ## Summary
@@ -26,7 +28,7 @@ Understanding this relationship helps quantify whether the modern 3-point revolu
 - U-Shaped Relationship: Efficiency (eFG%) is highest for players at the extremes of 3-point reliance (very low or very high 3PAr).
 - Statistical Significance: The quadratic term for 3PAr is positive and significant (p < 0.01) across model specifications.
 - Positional Patterns: Guards and forwards show lower average eFG% than centers, consistent with shot location and role differences.
-- Model Fit: Best model explains ~23% of variance in efficiency (Adj. R² = 0.228).
+- Model Fit: Best model explains ~33% of variance in efficiency (Adj. R² = 0.326).
 - Interpretation: Role specialization (either 3-point specialist or big man) is linked to higher efficiency.
 
 ---
@@ -53,7 +55,7 @@ Understanding this relationship helps quantify whether the modern 3-point revolu
 ___
 
 ## Discussion
-The quadratic models suggest diminishing returns around midrange 3-point attempt rates --> efficiency dips when players blend inside and perimeter shots, possibly reflecting role ambiguity or less shot selectivity.
+The quadratic models suggest diminishing returns around midrange 3-point attempt rates. Efficiency seems to dip when players mix inside and perimeter shots, possibly reflecting role ambiguity.
 Players who either:
 - Limit 3s (interior scorers, lob threats), or
 - Maximize 3s (floor-spacers, specialists),
