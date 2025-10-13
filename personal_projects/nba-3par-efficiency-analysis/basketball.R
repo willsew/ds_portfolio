@@ -45,9 +45,9 @@ nba <- nba %>%
   filter(Team == "2TM" | Team == "3TM" | n() == 1) %>% # keep 2TM/3TM if exists, else the only row
   ungroup()
 
-#Filter out players who have less than 12 MPG, less than 25 games played, and at least 1 3PA
+#Filter out players who have less than 12 MPG + less than 25 games played
 nba <- nba %>%
-  filter(G >= 25, MPG >= 12, `3PA` >= 1)
+  filter(G >= 25, MPG >= 12)
 
 summary(nba)
 
