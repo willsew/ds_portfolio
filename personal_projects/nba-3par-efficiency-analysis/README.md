@@ -5,11 +5,11 @@ This project investigates how NBA players’ **three-point attempt rate (3PAr)**
 
 ---
 
-## Overview
+## Research Question and Motivation
 
-Over the past decade, the NBA has undergone a noticeable transformation toward perimeter-oriented play.
+Over the past decade, the NBA has undergone a noticeable transformation toward perimeter-oriented play. In lieu of this, my project seeks to address the question:
 
-In lieu of this, my project seeks to address the question: ***What is the association between shot selection (three-point attempt rate) and player scoring efficiency?***
+***What is the association between shot selection (three-point attempt rate) and player scoring efficiency?***
 
 In this analysis, I:
 - Scrape per-game and advanced player stats from Basketball Reference
@@ -18,6 +18,8 @@ In this analysis, I:
 - Explore descriptive patterns by position
 - Visualize key relationships
 - Test hypotheses using linear and quadratic regression models with robust standard errors
+
+*This is an observational, cross-sectional analysis of player-season averages. Results reflect association, not causation (e.g., efficient shooters may be granted more freedom to take 3s).*
 
 ---
 
