@@ -12,7 +12,7 @@ Analyzes 2023–24 NBA player data to reveal a U-shaped relationship between thr
 ### MIDS coursework so far
 
 * DATASCI 201: Research Design and Applications for Data and Analysis
-* ***(current TA)*** DATASCI 203: Statistics for Data Science
+* DATASCI 203: Statistics for Data Science ***(current TA)*** 
 * DATASCI 205: Fundamentals of Data Engineering
 * DATASCI 207: Applied Machine Learning
 * DATASCI 231: Behind the Data: Humans and Values
