@@ -16,3 +16,5 @@ Analyzes 2023–24 NBA player data to reveal a U-shaped relationship between thr
 * DATASCI 205: Fundamentals of Data Engineering
 * DATASCI 207: Applied Machine Learning
 * DATASCI 231: Behind the Data: Humans and Values
+* DATASCI 255: Machine Learning Systems Engineering
+* DATASCI 221: Modern AI Strategy and Applications
