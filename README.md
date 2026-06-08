@@ -18,7 +18,7 @@ Analyzed 2023–24 NBA player data to surface a U-shaped relationship between th
 
 ## Background
 
-At PwC I was the first technical hire on the Responsible AI team, where I authored internal frameworks for AI risk across the model lifecycle and started peering into LLM evaluation and harm mitigation efforts. Before that I built and owned several ML systems in production:
+At PwC I was the first technical hire on the Responsible AI team, where I authored internal frameworks for AI risk across the model lifecycle and began peering into LLM evaluation and harm mitigation efforts. Before that I built and owned several ML systems in production:
 
 - **Semantic search** — SBERT-based NLP pipeline for audit procedures and financial data (89% recall@10)
 - **Company comparison** — scalable ML pipeline improving recall@10 by 90.3%
