@@ -1,20 +1,38 @@
-# Data Science Portfolio for William Seward
+# William Seward — Data Science Portfolio
 
-Hi! This repo contains personal projects, as well as coursework from UC Berkeley's Master of Information and Data Science (MIDS), revolving around stats, ML, and DE.
+Senior Data Scientist with 5 years of industry experience at PwC, currently pursuing a Master's in Information and Data Science (MIDS) at UC Berkeley. I work at the intersection of NLP, ML systems, and responsible AI, with a goal of building things that actually ship.
 
 ---
 
-### Personal Projects
+## Projects
 
-**[NBA 3-Point Attempt Rate and Shooting Efficiency Analysis](https://github.com/willsew/ds_portfolio/tree/main/personal_projects/nba-3par-efficiency-analysis)**  
-Analyzes 2023–24 NBA player data to reveal a U-shaped relationship between three-point attempt rate (3PAr) and shooting efficiency (eFG%), showing that players are most efficient when they specialize as interior finishers or high-volume three-point shooters.
+### [Neo4j Flight Network Optimization](./personal_projects/neo4j-flight-network)
+Modeled 67K+ global flight routes as a graph in Neo4j to analyze airport connectivity and optimize routing. Applied PageRank, centrality measures, and community detection to identify key hubs and map regional airline networks. Used Cypher for preprocessing and normalization prior to graph ingestion.
 
-### MIDS coursework so far
+### [NBA 3-Point Attempt Rate & Shooting Efficiency](./personal_projects/nba-3par-efficiency-analysis)
+Analyzed 2023–24 NBA player data to surface a U-shaped relationship between three-point attempt rate and shooting efficiency — players are most efficient as interior specialists or high-volume shooters, with a penalty for the in-between. Built in Python with pandas and matplotlib.
 
-* DATASCI 201: Research Design and Applications for Data and Analysis
-* DATASCI 203: Statistics for Data Science ***(current TA)*** 
-* DATASCI 205: Fundamentals of Data Engineering
-* DATASCI 207: Applied Machine Learning
-* DATASCI 231: Behind the Data: Humans and Values
-* DATASCI 255: Machine Learning Systems Engineering
-* DATASCI 221: Modern AI Strategy and Applications
+---
+
+## Background
+
+At PwC I was the first technical hire on the Responsible AI team, where I authored internal frameworks for AI risk across the model lifecycle and started peering into LLM evaluation and harm mitigation efforts. Before that I built and owned several ML systems in production:
+
+- **Semantic search** — SBERT-based NLP pipeline for audit procedures and financial data (89% recall@10)
+- **Company comparison** — scalable ML pipeline improving recall@10 by 90.3%
+- **Accounting automation** — three patents for AI-assisted virtual assistant and consultant applications
+- **Anomaly detection** — POC using autoencoders, Isolation Forest, and SVDD
+
+I'm currently a Teaching Assistant for Statistics for Data Science (DATASCI 203) at Berkeley.
+
+---
+
+## Skills
+
+**Languages & libraries:** Python (pandas, numpy, scikit-learn, PyTorch), R, SQL (PostgreSQL), Cypher (Neo4j), MongoDB, Redis  
+**ML focus:** NLP, semantic search, embeddings, LLMs, anomaly detection, recommendation systems  
+**Cloud:** Azure, AWS, GCP
+
+---
+
+*Currently open to ML/data science roles. Reach me at wseward@ischool.berkeley.edu*
