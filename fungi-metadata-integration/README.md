@@ -2,8 +2,6 @@
 
 **207 Final Project – Spring 2025**
 
-**Authors:** Rachel Kalafos, Ryan Farhat-Sabet, William Seward  
-
 ---
 
 ## Overview
