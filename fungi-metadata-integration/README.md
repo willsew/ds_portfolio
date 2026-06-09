@@ -1,4 +1,4 @@
-# 🍄 Improving Fungi Classification with Metadata Integration
+# Improving Fungi Classification with Metadata Integration
 
 **207 Final Project – Spring 2025**
 
