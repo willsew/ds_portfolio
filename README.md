@@ -15,20 +15,15 @@ Modeled 67K+ global flight routes as a graph in Neo4j to analyze airport connect
 Analyzed 2023–24 NBA player data to surface a U-shaped relationship between three-point attempt rate and shooting efficiency — players are most efficient as interior specialists or high-volume shooters, with a penalty for the in-between. Built in R.
 
 ### [Fungi Classification with Metadata Integration](./fungi-classification)
-Built a multi-input neural network to classify wild fungi into taxonomic classes using the FungiCLEF 2025
-dataset (6,391 observations, 12,015 images). Compared an image-only CNN against a multi-branch architecture
-fusing image data with environmental metadata (elevation, habitat embeddings) via concatenation. Addressed
-severe class imbalance across 33 taxa through augmentation and downsampling. Adding metadata more than
-tripled CNN accuracy (2.4% → 8.2%); a feed-forward net on flattened image data topped all models at 11.1%,
-suggesting tabular metadata carries strong taxonomic signal. Built in TensorFlow/Keras.
+Classified wild fungi into taxonomic classes using the FungiCLEF 2025 dataset (6,391 observations, 12,015
+images). Compared an image-only CNN against a multi-branch architecture fusing images with environmental
+metadata (elevation, habitat embeddings). Adding metadata more than tripled CNN accuracy (2.4% → 8.2%);
+a feed-forward net on metadata alone topped all models at 11.1%. Built in TensorFlow/Keras.
 
 ### [Spotify Track Popularity & Audio Features](./spotify-popularity)
 Investigated the association between Spotify's danceability metric and track popularity across 26,230
-deduplicated songs. Built baseline and multivariate OLS regression models in R with robust standard errors,
-following a 30/70 exploration/confirmation split. Danceability was statistically significant but explained under
-1% of popularity variance; adding instrumentalness and energy raised R² to 3.2%, with both carrying a negative
-association with popularity. Also tested seven additional audio features for incremental explanatory value.
-Built in R.
+deduplicated songs. Baseline OLS on danceability alone explained under 1% of variance; adding
+instrumentalness and energy raised R² to 3.2%, with both negatively associated with popularity. Built in R.
 
 ---
 
