@@ -23,7 +23,7 @@ At PwC I was the first technical hire on the Responsible AI team, where I author
 - **Semantic search** — SBERT-based NLP pipeline for audit procedures and financial data (89% recall@10)
 - **Company comparison** — scalable ML pipeline improving recall@10 by 90.3%
 - **Accounting automation** — three patents for AI-assisted virtual assistant and consultant applications
-- **Anomaly detection** — POC using autoencoders, Isolation Forest, and SVDD
+- **Anomaly detection** — technical liaison using autoencoder, Isolation Forest, and SVDD
 
 I'm currently a Teaching Assistant for Statistics for Data Science (DATASCI 203) at Berkeley.
 
