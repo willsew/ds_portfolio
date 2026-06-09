@@ -12,7 +12,7 @@ I grew from an AI Lab intern at PwC into a Data Scientist and then Senior Data S
 Modeled 67K+ global flight routes as a graph in Neo4j to analyze airport connectivity and optimize routing. Applied PageRank, centrality measures, and community detection to identify key hubs and map regional airline networks. Used Cypher for preprocessing and normalization prior to graph ingestion.
 
 ### [NBA 3-Point Attempt Rate & Shooting Efficiency](./nba-3pt-analysis)
-Analyzed 2023–24 NBA player data to surface a U-shaped relationship between three-point attempt rate and shooting efficiency — players are most efficient as interior specialists or high-volume shooters, with a penalty for the in-between. Built in Python with pandas and matplotlib.
+Analyzed 2023–24 NBA player data to surface a U-shaped relationship between three-point attempt rate and shooting efficiency — players are most efficient as interior specialists or high-volume shooters, with a penalty for the in-between. Built in R.
 
 ---
 
