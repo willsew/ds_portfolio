@@ -2,7 +2,7 @@
 
 Senior data scientist with about five years of experience spanning applied AI, analytics, and AI governance. Currently a Master of Information and Data Science (MIDS) student at UC Berkeley while serving as a teaching assistant for graduate-level statistics. Most of my work has revolved around building AI-powered tools in a consulting environment while communicating technical concepts and responsible AI standards to non-technical stakeholders.
 
-I grew from an AI Lab intern at PwC into a Data Scientist and then Senior Data Scientist, deepening my focus on practical AI applications and the policies needed to use them safely and responsibly. I'm looking for roles where he can combine hands-on data science with thoughtful oversight of how AI is deployed, ideally in teams that value both technical rigor and clear communication.
+I grew from an AI Lab intern at PwC into a Data Scientist and then Senior Data Scientist, deepening my focus on practical AI applications and the policies needed to use them safely and responsibly. I'm looking for roles where I can combine hands-on applications with thoughtful oversight of how AI is deployed, ideally in teams that value both technical rigor and clear communication.
 
 ---
 
