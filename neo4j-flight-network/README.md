@@ -1,4 +1,4 @@
-# ✈️ Neo4 Ways to Fly
+# Neo4 Ways to Fly
 
 **205 Final Project – Summer 2025**  
 
