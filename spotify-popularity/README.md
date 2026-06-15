@@ -1,7 +1,5 @@
 # Spotify: Unpacking the Association Between Track Audio Features and Popularity
 
-**203 Final Project – Fall 2024**
-
 ---
 
 ## Overview
